@@ -1,0 +1,3 @@
+rootProject.name='face-detection-android'
+include ':app'
+include ':facedetectionlib'
