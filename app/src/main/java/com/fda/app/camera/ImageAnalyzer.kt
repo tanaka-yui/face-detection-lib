@@ -12,12 +12,20 @@ class ImageAnalyzer(private val callbackCameraImage: (bitmap: Bitmap) -> Unit): 
         const val TAG = "ImageAnalyzer"
     }
 
-    private val faceDetection = FaceDetection()
+    private val faceDetection by lazy { FaceDetection().apply {
+        init()
+    } }
+
+    private val detectionDrawHelper by lazy { DetectionDrawHelper() }
 
     override fun analyze(imageProxy: ImageProxy) {
         try {
             val bitmap = imageProxy.toBitmap()
-            faceDetection.detect(bitmap)
+            val ret = faceDetection.detect(bitmap)
+            detectionDrawHelper.drawFaceDetectionData(bitmap, ret)
+            for (d in ret) {
+                Log.i(TAG, d.toString() )
+            }
             callbackCameraImage(bitmap)
         } catch (e: Exception) {
             Log.e(TAG, e.localizedMessage ?: "unexpected error", e)

@@ -5,9 +5,11 @@ import android.graphics.Bitmap
 class FaceDetection {
     companion object {
         init {
-            System.loadLibrary("face-detection-lib")
+            System.loadLibrary("face_detection_lib")
         }
     }
 
-    external fun detect(bitmap: Bitmap): String
+    external fun init(): Int
+
+    external fun detect(bitmap: Bitmap): Array<VisionDetRet>
 }
